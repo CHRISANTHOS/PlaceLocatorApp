@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           GoogleMap(
             myLocationButtonEnabled: true,
+            myLocationEnabled: true,
             onMapCreated: _onMapCreated,
             initialCameraPosition:
                 CameraPosition(target: LatLng(6.5243793, 3.3792057), zoom: 14),

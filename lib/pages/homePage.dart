@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:place_locator/viewmodel/placeViewModel.dart';
 import 'package:place_locator/widget/placeList.dart';
+import 'package:map_launcher/map_launcher.dart' as launch;
 
 import '../viewmodel/placeListViewModel.dart';
 
@@ -47,7 +48,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _launchMap(PlaceViewModel vm)async{
-
+    final availableMaps = await launch.MapLauncher.installedMaps;
+    await availableMaps.first.showMarker(coords: launch.Coords(vm.latitude, vm.longitude), title: vm.name);
+    if(await launch.MapLauncher.isMapAvailable(launch.MapType.google) ?? false){
+      await launch.MapLauncher.showMarker(mapType: launch.MapType.google, coords: launch.Coords(vm.latitude, vm.longitude), title: vm.name);
+    }else if(await launch.MapLauncher.isMapAvailable(launch.MapType.apple) ?? false){
+      await launch.MapLauncher.showMarker(mapType: launch.MapType.apple, coords: launch.Coords(vm.latitude, vm.longitude), title: vm.name);
+    }
+    print(launch.MapLauncher.isMapAvailable(launch.MapType.google));
   }
 
   @override
